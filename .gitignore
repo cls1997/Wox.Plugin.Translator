@@ -102,3 +102,11 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#vscode
+.vscode
+
+#self
+wox.py
+config.json
+supported_languages

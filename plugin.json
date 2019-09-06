@@ -1,0 +1,12 @@
+{
+    "ID":"AC7F23B084D362DB66FE0979B62C666",
+    "ActionKeyword":"tr",
+    "Name":"Translator",
+    "Description":"",
+    "Author":"cls1997",
+    "Version":"1.0.0",
+    "Language":"python",
+    "Website":"",
+    "IcoPath":"translate.png",
+    "ExecuteFileName":"main.py"
+}
