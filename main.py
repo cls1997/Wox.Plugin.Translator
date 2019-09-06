@@ -35,12 +35,12 @@ class Translator(Wox):
 
     def _get_supported_language(self):
         try:
-            with open("supported_languages", "r") as f:
-                data = f.read()
-                return json.loads(data)
+            f = open("supported_languages", "r")
+            data = f.read()
+            return json.loads(data)
         except:
             target = self._load_config().get("lang")
-            return _update_supportted_languages_cache(target)
+            return self._update_supportted_languages_cache(target)
 
     def _update_supportted_languages_cache(self, lang):
         api = self._get_api()
@@ -53,7 +53,7 @@ class Translator(Wox):
             )
         with open("supported_languages", "w") as f:
             f.write(json.dumps(r.json()))
-        return r.json
+        return r.json()
 
     def openUrl(self, url):
         webbrowser.open(url)
@@ -66,14 +66,7 @@ class Translator(Wox):
 
     def translate(self, q, target, source=None):
         api = self._get_api()
-        # r=api.translate(q,target,source = source)
-        url = "https://translation.googleapis.com/language/translate/v2"
-        data = {k: v for k, v in dict(
-            q=q, target=target, source=source).items() if v is not None}
-        params = dict(key=self._load_config().get("key"))
-        headers = {"Content-Type": "application/json; charset=utf-8"}
-        r = requests.post(url, json=data, params=params, headers=headers)
-
+        r = api.translate(q, target, source=source)
         if r.status_code == 403:
             return dict(
                 Title="Key Invalid",
@@ -126,9 +119,8 @@ class Translator(Wox):
     def context_menu(self, data):
         results = []
         results.append(build_result("Select default destination language"))
-        results.extend(
+        results += \
             self.get_supported_language()
-        )
         return results
 
 
