@@ -31,7 +31,13 @@ class Translator(Wox):
 
     def _get_api(self):
         config = self._load_config()
-        return GoogleTranslateAPI(config.get("key"))
+        if self.proxy and self.proxy.get("enabled") and self.proxy.get("server"):
+            proxy_url = "http://{}:{}".format(
+                self.proxy.get("server"), self.proxy.get("port"))
+        else:
+            proxy_url = config.get("proxy", None)
+
+        return GoogleTranslateAPI(config.get("key"), dict(http=proxy_url, https=proxy_url) if proxy_url is not None else None)
 
     def _get_supported_language(self):
         try:
